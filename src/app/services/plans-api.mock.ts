@@ -1,0 +1,924 @@
+export interface PlanBenefit {
+  order: number;
+  icon: string;
+  description: string;
+  descriptionEN?: string;
+  descriptionES?: string;
+}
+
+export interface Plan {
+  idPlan: number;
+  uuid: string;
+  planName: string;
+  amount: number;
+  createdAt: string;
+  updatedAt: string;
+  marketed: number;
+  status: string;
+  months: number;
+  renewable: number;
+  upgradable: number;
+  limit: number | null;
+  order: number | null;
+  shopDiscount: number;
+  pagarmeCode: string | null;
+  hasCard: number;
+  idPlanGroup: number | null;
+  virtualCardOnly: number;
+  saleDisabled: number;
+  cardImageURL: string;
+  shirtModels: number[];
+  subscription: number;
+  benefits: PlanBenefit[];
+}
+
+export interface PlanBucket {
+  id: number;
+  name?: string;
+  url?: string;
+  priceStartsAt?: number;
+  plans: Plan[];
+}
+
+export type PlanApiPayload = PlanBucket[];
+
+const MOCK_PLANS: PlanApiPayload = [
+  {
+    id: 0,
+    plans: [
+      {
+        idPlan: 452,
+        uuid: "a5a7715d-d091-4410-aed4-f8e78732dee1",
+        planName: "Premium",
+        amount: 24000,
+        createdAt: "2024-11-27T13:55:16.000Z",
+        updatedAt: "2025-09-24T17:01:22.000Z",
+        marketed: 1,
+        status: "ACTIVE",
+        months: 12,
+        renewable: 1,
+        upgradable: 0,
+        limit: 120,
+        order: null,
+        shopDiscount: 13,
+        pagarmeCode: "plan_1ByYbMCJWfzm5G46",
+        hasCard: 1,
+        idPlanGroup: null,
+        virtualCardOnly: 1,
+        saleDisabled: 0,
+        cardImageURL: "https://gnv-cartoes.s3.us-east-1.amazonaws.com/card-gnv-premium.png",
+        shirtModels: [12],
+        subscription: 1,
+        benefits: [
+          {
+            order: 1,
+            icon: "ticket",
+            description: "Ingresso para todo jogo com mando do Galo",
+            descriptionEN: "Ticket for every game hosted by Galo",
+            descriptionES: "Entrada para cada partido local del Galo",
+          },
+          {
+            order: 2,
+            icon: "t-shirt",
+            description: "01 camisa oficial por vigência do plano",
+            descriptionEN: "01 official jersey per plan term",
+            descriptionES: "01 camiseta oficial por vigencia del plan",
+          },
+          {
+            order: 3,
+            icon: "car",
+            description: "Estacionamento em todos os jogos do Galo na Arena MRV",
+            descriptionEN: "Parking at all Galo games at Arena MRV",
+            descriptionES: "Estacionamiento en todos los partidos del Galo en el Arena MRV",
+          },
+          {
+            order: 4,
+            icon: "rooster",
+            description: "01 evento com o Galo Doido",
+            descriptionEN: "01 event with Galo Doido (the crazy rooster mascot)",
+            descriptionES: "01 evento con el Galo Doido (la mascota del gallo loco)",
+          },
+          {
+            order: 5,
+            icon: "soccer-ball",
+            description: "01 visita ao Centro de Treinamento",
+            descriptionEN: "01 visit to the Training Center",
+            descriptionES: "01 visita al Centro de Entrenamiento",
+          },
+          {
+            order: 6,
+            icon: "seal-percent",
+            description: "55% de desconto no Tour Arena MRV",
+            descriptionEN: "55% discount on the Arena MRV Tour",
+            descriptionES: "55% de descuento en el Tour Arena MRV",
+          },
+          {
+            order: 7,
+            icon: "seal-check-bold",
+            description: "Lounge exclusivo Open Bar e Open Food na Arena MRV",
+            descriptionEN: "Exclusive Open Bar and Open Food Lounge at Arena MRV",
+            descriptionES: "Salón exclusivo de barra libre y comida en el Arena MRV",
+          },
+          {
+            order: 8,
+            icon: "seal-check-bold",
+            description: "Atendimento Exclusivo",
+            descriptionEN: "Exclusive Service",
+            descriptionES: "Atención exclusiva",
+          },
+          {
+            order: 9,
+            icon: "gift",
+            description: "Welcome Kit",
+            descriptionEN: "Welcome Kit",
+            descriptionES: "Kit de bienvenida",
+          },
+          {
+            order: 10,
+            icon: "shopping-bag",
+            description: "Até 13% de desconto na Loja do Galo online",
+            descriptionEN: "Up to 13% discount at the online Galo Store",
+            descriptionES: "Hasta un 13% de descuento en la Tienda Galo en línea",
+          },
+          {
+            order: 11,
+            icon: "swimming-pool",
+            description: "50% de desconto na aquisição de cotas dos clubes",
+            descriptionEN: "50% discount on the acquisition of club shares",
+            descriptionES: "50% de descuento en la adquisición de cuotas de los clubes",
+          },
+          {
+            order: 12,
+            icon: "vantagem",
+            description:
+              "GNV Vantagens - descontos e cashback em diversos produtos e serviços nas lojas parceiras",
+            descriptionEN:
+              "GNV Advantages - discounts and cashback on various products and services at partner stores",
+            descriptionES:
+              "GNV Ventajas - descuentos y cashback en diversos productos y servicios en tiendas asociadas",
+          },
+          {
+            order: 13,
+            icon: "barbell",
+            description: "10% de desconto na Academia de Futebol do Galo",
+            descriptionEN: "10% discount at the Galo Football Academy",
+            descriptionES: "10% de descuento en la Academia de Fútbol del Galo",
+          },
+          {
+            order: 14,
+            icon: "identification-card",
+            description: "Cartão de todos",
+            descriptionEN: "Card for everyone",
+            descriptionES: "Tarjeta de todos",
+          },
+        ],
+      },
+      {
+        idPlan: 445,
+        uuid: "2612a133-bf72-4e07-8c0c-f383ade12a0f",
+        planName: "Forte e Vingador",
+        amount: 1140,
+        createdAt: "2021-05-05T13:32:00.000Z",
+        updatedAt: "2025-09-24T17:01:11.000Z",
+        marketed: 1,
+        status: "ACTIVE",
+        months: 12,
+        renewable: 1,
+        upgradable: 1,
+        limit: 23100,
+        order: 1,
+        shopDiscount: 13,
+        pagarmeCode: "plan_XYEJvy4WU7tzGQko",
+        hasCard: 1,
+        idPlanGroup: null,
+        virtualCardOnly: 0,
+        saleDisabled: 0,
+        cardImageURL: "https://gnv-cartoes.s3.us-east-1.amazonaws.com/card-fev.png",
+        shirtModels: [11, 12],
+        subscription: 1,
+        benefits: [
+          {
+            order: 1,
+            icon: "ticket",
+            description: "70% de desconto na compra do ingresso do titular",
+            descriptionEN: "70% discount on the purchase of the holder's ticket",
+            descriptionES: "70% de descuento en la compra de la entrada del titular",
+          },
+          {
+            order: 2,
+            icon: "t-shirt",
+            description: "01 camisa oficial por vigência do plano",
+            descriptionEN: "01 official jersey per plan term",
+            descriptionES: "01 camiseta oficial por vigencia del plan",
+          },
+          {
+            order: 3,
+            icon: "number-zero-bold",
+            description: "Prioridade zero para compra de pacotes e ingressos avulsos",
+            descriptionEN: "Priority zero for purchasing packages and single tickets",
+            descriptionES: "Prioridad cero para la compra de paquetes y entradas individuales",
+          },
+          {
+            order: 4,
+            icon: "baby",
+            description: "Plano GNV Kids adicional",
+            descriptionEN: "Additional GNV Kids plan",
+            descriptionES: "Plan GNV Kids adicional",
+          },
+          {
+            order: 5,
+            icon: "seal-percent",
+            description: "55% de desconto no Tour Arena MRV",
+            descriptionEN: "55% discount on the Arena MRV Tour",
+            descriptionES: "55% de descuento en el Tour Arena MRV",
+          },
+          {
+            order: 6,
+            icon: "shopping-bag",
+            description: "Até 13% de desconto na Loja do Galo online",
+            descriptionEN: "Up to 13% discount at the online Galo Store",
+            descriptionES: "Hasta un 13% de descuento en la Tienda Galo en línea",
+          },
+          {
+            order: 7,
+            icon: "seal-check-bold",
+            description: "Sorteios e experiências exclusivas",
+            descriptionEN: "Exclusive raffles and experiences",
+            descriptionES: "Sorteos y experiencias exclusivas",
+          },
+          {
+            order: 8,
+            icon: "vantagem",
+            description:
+              "GNV Vantagens - descontos e cashback em diversos produtos e serviços nas lojas parceiras",
+            descriptionEN:
+              "GNV Advantages - discounts and cashback on various products and services at partner stores",
+            descriptionES:
+              "GNV Ventajas - descuentos y cashback en diversos productos y servicios en tiendas asociadas",
+          },
+          {
+            order: 9,
+            icon: "swimming-pool",
+            description: "50% de desconto na aquisição de cotas dos clubes",
+            descriptionEN: "50% discount on the acquisition of club shares",
+            descriptionES: "50% de descuento en la adquisición de cuotas de los clubes",
+          },
+          {
+            order: 10,
+            icon: "beer",
+            description:
+              "50% da mensalidade revertido em cupons mensalmente no Zé Delivery",
+            descriptionEN:
+              "50% of the monthly fee converted into monthly coupons on Zé Delivery",
+            descriptionES:
+              "50% de la mensualidad convertido en cupones mensualmente en Zé Delivery",
+          },
+          {
+            order: 11,
+            icon: "barbell",
+            description: "10% de desconto na Academia de Futebol do Galo",
+            descriptionEN: "10% discount at the Galo Football Academy",
+            descriptionES: "10% de descuento en la Academia de Fútbol del Galo",
+          },
+          {
+            order: 12,
+            icon: "identification-card",
+            description: "Cartão de todos",
+            descriptionEN: "Card for everyone",
+            descriptionES: "Tarjeta de todos",
+          },
+        ],
+      },
+      {
+        idPlan: 1,
+        uuid: "196582cc-2f51-4f07-a650-da307fae16a2",
+        planName: "Preto",
+        amount: 660,
+        createdAt: "2020-03-08T02:10:26.000Z",
+        updatedAt: "2025-09-24T16:59:57.000Z",
+        marketed: 1,
+        status: "ACTIVE",
+        months: 12,
+        renewable: 1,
+        upgradable: 1,
+        limit: null,
+        order: 2,
+        shopDiscount: 10,
+        pagarmeCode: "plan_nmaLZlDFmOUvNXvg",
+        hasCard: 1,
+        idPlanGroup: null,
+        virtualCardOnly: 0,
+        saleDisabled: 0,
+        cardImageURL: "https://gnv-cartoes.s3.us-east-1.amazonaws.com/card-preto.png",
+        shirtModels: [],
+        subscription: 1,
+        benefits: [
+          {
+            order: 1,
+            icon: "ticket",
+            description: "65% de desconto na compra do ingresso do titular",
+            descriptionEN: "65% discount on the purchase of the holder's ticket",
+            descriptionES: "65% de descuento en la compra de la entrada del titular",
+          },
+          {
+            order: 2,
+            icon: "number-one-bold",
+            description: "Prioridade um na compra de ingressos",
+            descriptionEN: "Priority one in ticket purchases",
+            descriptionES: "Prioridad uno en la compra de entradas",
+          },
+          {
+            order: 3,
+            icon: "seal-percent",
+            description: "50% de desconto no Tour Arena MRV",
+            descriptionEN: "50% discount on the Arena MRV Tour",
+            descriptionES: "50% de descuento en el Tour Arena MRV",
+          },
+          {
+            order: 4,
+            icon: "shopping-bag",
+            description: "Até 10% de desconto na Loja do Galo online",
+            descriptionEN: "Up to 10% discount at the online Galo Store",
+            descriptionES: "Hasta un 10% de descuento en la Tienda Galo en línea",
+          },
+          {
+            order: 5,
+            icon: "swimming-pool",
+            description: "50% de desconto na aquisição de cotas dos clubes",
+            descriptionEN: "50% discount on the acquisition of club shares",
+            descriptionES: "50% de descuento en la adquisición de cuotas de los clubes",
+          },
+          {
+            order: 6,
+            icon: "beer",
+            description:
+              "50% da mensalidade revertido em cupons mensalmente no Zé Delivery",
+            descriptionEN:
+              "50% of the monthly fee converted into monthly coupons on Zé Delivery",
+            descriptionES:
+              "50% de la mensualidad convertido en cupones mensualmente en Zé Delivery",
+          },
+          {
+            order: 7,
+            icon: "barbell",
+            description: "10% de desconto na Academia de Futebol do Galo",
+            descriptionEN: "10% discount at the Galo Football Academy",
+            descriptionES: "10% de descuento en la Academia de Fútbol del Galo",
+          },
+          {
+            order: 8,
+            icon: "vantagem",
+            description:
+              "GNV Vantagens - descontos e cashback em diversos produtos e serviços nas lojas parceiras",
+            descriptionEN:
+              "GNV Advantages - discounts and cashback on various products and services at partner stores",
+            descriptionES:
+              "GNV Ventajas - descuentos y cashback en diversos productos y servicios en tiendas asociadas",
+          },
+          {
+            order: 9,
+            icon: "identification-card",
+            description: "Cartão de todos",
+            descriptionEN: "Card for everyone",
+            descriptionES: "Tarjeta de todos",
+          },
+        ],
+      },
+      {
+        idPlan: 2,
+        uuid: "3b327aed-e460-44a2-ab61-574957ae2d96",
+        planName: "Prata",
+        amount: 480,
+        createdAt: "2020-03-08T02:10:26.000Z",
+        updatedAt: "2025-09-24T17:00:07.000Z",
+        marketed: 1,
+        status: "ACTIVE",
+        months: 12,
+        renewable: 1,
+        upgradable: 1,
+        limit: null,
+        order: 3,
+        shopDiscount: 10,
+        pagarmeCode: "plan_1WP8xdqFNmuGK89R",
+        hasCard: 1,
+        idPlanGroup: null,
+        virtualCardOnly: 0,
+        saleDisabled: 0,
+        cardImageURL: "https://gnv-cartoes.s3.us-east-1.amazonaws.com/card-prata.png",
+        shirtModels: [],
+        subscription: 1,
+        benefits: [
+          {
+            order: 1,
+            icon: "ticket",
+            description: "60% de desconto na compra do ingresso do titular",
+            descriptionEN: "60% discount on the purchase of the holder's ticket",
+            descriptionES: "60% de descuento en la compra de la entrada del titular",
+          },
+          {
+            order: 2,
+            icon: "number-two-bold",
+            description: "Segunda prioridade na compra de ingressos",
+            descriptionEN: "Second priority in ticket purchases",
+            descriptionES: "Segunda prioridad en la compra de entradas",
+          },
+          {
+            order: 3,
+            icon: "seal-percent",
+            description: "30% de desconto no Tour Arena MRV",
+            descriptionEN: "30% discount on the Arena MRV Tour",
+            descriptionES: "30% de descuento en el Tour Arena MRV",
+          },
+          {
+            order: 4,
+            icon: "shopping-bag",
+            description: "Até 10% de desconto na Loja do Galo online",
+            descriptionEN: "Up to 10% discount at the online Galo Store",
+            descriptionES: "Hasta un 10% de descuento en la Tienda Galo en línea",
+          },
+          {
+            order: 5,
+            icon: "swimming-pool",
+            description: "50% de desconto na aquisição de cotas dos clubes",
+            descriptionEN: "50% discount on the acquisition of club shares",
+            descriptionES: "50% de descuento en la adquisición de cuotas de los clubes",
+          },
+          {
+            order: 6,
+            icon: "beer",
+            description:
+              "50% da mensalidade revertido em cupons mensalmente no Zé Delivery",
+            descriptionEN:
+              "50% of the monthly fee converted into monthly coupons on Zé Delivery",
+            descriptionES:
+              "50% de la mensualidad convertido en cupones mensualmente en Zé Delivery",
+          },
+          {
+            order: 7,
+            icon: "barbell",
+            description: "10% de desconto na Academia de Futebol do Galo",
+            descriptionEN: "10% discount at the Galo Football Academy",
+            descriptionES: "10% de descuento en la Academia de Fútbol del Galo",
+          },
+          {
+            order: 8,
+            icon: "vantagem",
+            description:
+              "GNV Vantagens - descontos e cashback em diversos produtos e serviços nas lojas parceiras",
+            descriptionEN:
+              "GNV Advantages - discounts and cashback on various products and services at partner stores",
+            descriptionES:
+              "GNV Ventajas - descuentos y cashback en diversos productos y servicios en tiendas asociadas",
+          },
+          {
+            order: 9,
+            icon: "identification-card",
+            description: "Cartão de todos",
+            descriptionEN: "Card for everyone",
+            descriptionES: "Tarjeta de todos",
+          },
+        ],
+      },
+      {
+        idPlan: 450,
+        uuid: "a44dd341-516e-4747-96f7-4be60ede080b",
+        planName: "Vingadoras",
+        amount: 90,
+        createdAt: "2022-03-08T20:46:54.000Z",
+        updatedAt: "2025-09-24T17:01:05.000Z",
+        marketed: 1,
+        status: "ACTIVE",
+        months: 6,
+        renewable: 1,
+        upgradable: 0,
+        limit: null,
+        order: 4,
+        shopDiscount: 13,
+        pagarmeCode: "plan_8al9Zb4F7FXOVP75",
+        hasCard: 1,
+        idPlanGroup: null,
+        virtualCardOnly: 1,
+        saleDisabled: 0,
+        cardImageURL: "https://gnv-cartoes.s3.us-east-1.amazonaws.com/card-vingadoras.png",
+        shirtModels: [],
+        subscription: 1,
+        benefits: [
+          {
+            order: 1,
+            icon: "ticket",
+            description:
+              "100% de desconto na compra de ingresso avulso(futebol feminino)",
+            descriptionEN:
+              "100% discount on the purchase of a single ticket (women's football)",
+            descriptionES:
+              "100% de descuento en la compra de entrada individual (fútbol femenino)",
+          },
+          {
+            order: 2,
+            icon: "seal-percent",
+            description: "20% de desconto no Tour Arena MRV",
+            descriptionEN: "20% discount on the Arena MRV Tour",
+            descriptionES: "20% de descuento en el Tour Arena MRV",
+          },
+          {
+            order: 3,
+            icon: "shopping-bag",
+            description:
+              "Desconto na Loja do Galo de 13% em produtos oficiais do futebol feminino e 7% em todos os produtos oficiais",
+            descriptionEN:
+              "13% discount at the Galo Store on official women's football products and 7% on all official products",
+            descriptionES:
+              "13% de descuento en la Tienda Galo en productos oficiales de fútbol femenino y 7% en todos los productos oficiales",
+          },
+          {
+            order: 4,
+            icon: "vantagem",
+            description:
+              "GNV Vantagens - descontos e cashback em diversos produtos e serviços nas lojas parceiras",
+            descriptionEN:
+              "GNV Advantages - discounts and cashback on various products and services at partner stores",
+            descriptionES:
+              "GNV Ventajas - descuentos y cashback en diversos productos y servicios en tiendas asociadas",
+          },
+          {
+            order: 5,
+            icon: "beer",
+            description:
+              "50% da mensalidade revertido em cupons mensalmente no Zé Delivery",
+            descriptionEN:
+              "50% of the monthly fee converted into monthly coupons on Zé Delivery",
+            descriptionES:
+              "50% de la mensualidad convertido en cupones mensualmente en Zé Delivery",
+          },
+          {
+            order: 6,
+            icon: "swimming-pool",
+            description: "50% de desconto na aquisição de cotas dos clubes",
+            descriptionEN: "50% discount on the acquisition of club shares",
+            descriptionES: "50% de descuento en la adquisición de cuotas de los clubes",
+          },
+          {
+            order: 7,
+            icon: "barbell",
+            description: "10% de desconto na Academia de Futebol do Galo",
+            descriptionEN: "10% discount at the Galo Football Academy",
+            descriptionES: "10% de descuento en la Academia de Fútbol del Galo",
+          },
+          {
+            order: 8,
+            icon: "identification-card",
+            description: "Cartão de todos",
+            descriptionEN: "Card for everyone",
+            descriptionES: "Tarjeta de todos",
+          },
+        ],
+      },
+      {
+        idPlan: 3,
+        uuid: "06816f2d-1841-47e5-be9c-50c5927e11e1",
+        planName: "Branco",
+        amount: 216,
+        createdAt: "2020-03-08T02:10:26.000Z",
+        updatedAt: "2025-09-24T17:00:37.000Z",
+        marketed: 1,
+        status: "ACTIVE",
+        months: 12,
+        renewable: 1,
+        upgradable: 1,
+        limit: null,
+        order: 5,
+        shopDiscount: 7,
+        pagarmeCode: "plan_65zY0jbURPhMbd3A",
+        hasCard: 1,
+        idPlanGroup: null,
+        virtualCardOnly: 0,
+        saleDisabled: 0,
+        cardImageURL: "https://gnv-cartoes.s3.us-east-1.amazonaws.com/card-branco.png",
+        shirtModels: [],
+        subscription: 1,
+        benefits: [
+          {
+            order: 1,
+            icon: "ticket",
+            description: "55% de desconto na compra do ingresso do titular",
+            descriptionEN: "55% discount on the purchase of the holder's ticket",
+            descriptionES: "55% de descuento en la compra de la entrada del titular",
+          },
+          {
+            order: 2,
+            icon: "number-three-bold",
+            description: "Terceira prioridade na compra de ingressos",
+            descriptionEN: "Third priority in ticket purchases",
+            descriptionES: "Tercera prioridad en la compra de entradas",
+          },
+          {
+            order: 3,
+            icon: "seal-percent",
+            description: "20% de desconto no Tour Arena MRV",
+            descriptionEN: "20% discount on the Arena MRV Tour",
+            descriptionES: "20% de descuento en el Tour Arena MRV",
+          },
+          {
+            order: 4,
+            icon: "shopping-bag",
+            description: "Até 7% de desconto na Loja do Galo online",
+            descriptionEN: "Up to 7% discount at the online Galo Store",
+            descriptionES: "Hasta un 7% de descuento en la Tienda Galo en línea",
+          },
+          {
+            order: 5,
+            icon: "swimming-pool",
+            description: "50% de desconto na aquisição de cotas dos clubes",
+            descriptionEN: "50% discount on the acquisition of club shares",
+            descriptionES: "50% de descuento en la adquisición de cuotas de los clubes",
+          },
+          {
+            order: 6,
+            icon: "beer",
+            description:
+              "50% da mensalidade revertido em cupons mensalmente no Zé Delivery",
+            descriptionEN:
+              "50% of the monthly fee converted into monthly coupons on Zé Delivery",
+            descriptionES:
+              "50% de la mensualidad convertido en cupones mensualmente en Zé Delivery",
+          },
+          {
+            order: 7,
+            icon: "barbell",
+            description: "10% de desconto na Academia de Futebol do Galo",
+            descriptionEN: "10% discount at the Galo Football Academy",
+            descriptionES: "10% de descuento en la Academia de Fútbol del Galo",
+          },
+          {
+            order: 8,
+            icon: "vantagem",
+            description:
+              "GNV Vantagens - descontos e cashback em diversos produtos e serviços nas lojas parceiras",
+            descriptionEN:
+              "GNV Advantages - discounts and cashback on various products and services at partner stores",
+            descriptionES:
+              "GNV Ventajas - descuentos y cashback en diversos productos y servicios en tiendas asociadas",
+          },
+          {
+            order: 9,
+            icon: "identification-card",
+            description: "Cartão de todos",
+            descriptionEN: "Card for everyone",
+            descriptionES: "Tarjeta de todos",
+          },
+        ],
+      },
+      {
+        idPlan: 5,
+        uuid: "671076ab-14ae-4c93-a521-55d3f1bdf15a",
+        planName: "Kids",
+        amount: 180,
+        createdAt: "2020-03-08T02:10:26.000Z",
+        updatedAt: "2025-09-24T17:00:54.000Z",
+        marketed: 1,
+        status: "ACTIVE",
+        months: 12,
+        renewable: 1,
+        upgradable: 0,
+        limit: null,
+        order: 6,
+        shopDiscount: 0,
+        pagarmeCode: "plan_5doz4bruWKTk8WOE",
+        hasCard: 1,
+        idPlanGroup: null,
+        virtualCardOnly: 0,
+        saleDisabled: 0,
+        cardImageURL: "https://gnv-cartoes.s3.us-east-1.amazonaws.com/card-kids.png",
+        shirtModels: [],
+        subscription: 1,
+        benefits: [
+          {
+            order: 1,
+            icon: "ticket",
+            description:
+              "70% de desconto na compra de ingresso em venda avulsa no mesmo setor do titular do plano",
+            descriptionEN:
+              "70% discount on the purchase of a single ticket in the same sector as the plan holder",
+            descriptionES:
+              "70% de descuento en la compra de una entrada individual en el mismo sector que el titular del plan",
+          },
+          {
+            order: 2,
+            icon: "vantagem",
+            description:
+              "Entrada no mesmo setor do titular, mediante a compra do ingresso",
+            descriptionEN:
+              "Entry in the same sector as the holder, upon purchase of the ticket",
+            descriptionES:
+              "Entrada en el mismo sector que el titular, al adquirir la entrada",
+          },
+          {
+            order: 3,
+            icon: "seal-percent",
+            description: "50% de desconto no Tour Arena MRV",
+            descriptionEN: "50% discount on the Arena MRV Tour",
+            descriptionES: "50% de descuento en el Tour Arena MRV",
+          },
+          {
+            order: 5,
+            icon: "info",
+            description:
+              "Idade limite de 12 anos; disponível apenas para quem já é GNV",
+            descriptionEN:
+              "Age limit of 12; available only for those who are already GNV members",
+            descriptionES:
+              "Límite de edad de 12 años; disponible solo para quienes ya son miembros GNV",
+          },
+          {
+            order: 6,
+            icon: "barbell",
+            description: "10% de desconto na Academia de Futebol do Galo",
+            descriptionEN: "10% discount at the Galo Football Academy",
+            descriptionES: "10% de descuento en la Academia de Fútbol del Galo",
+          },
+        ],
+      },
+      {
+        idPlan: 449,
+        uuid: "4dbeb0f8-ac69-11ec-b909-0242ac120002",
+        planName: "Internacional",
+        amount: 300,
+        createdAt: "2022-03-25T18:43:11.000Z",
+        updatedAt: "2025-09-24T17:01:18.000Z",
+        marketed: 1,
+        status: "ACTIVE",
+        months: 12,
+        renewable: 1,
+        upgradable: 0,
+        limit: null,
+        order: 7,
+        shopDiscount: 13,
+        pagarmeCode: null,
+        hasCard: 1,
+        idPlanGroup: null,
+        virtualCardOnly: 0,
+        saleDisabled: 0,
+        cardImageURL: "https://gnv-cartoes.s3.us-east-1.amazonaws.com/card-internacional.png",
+        shirtModels: [12],
+        subscription: 1,
+        benefits: [
+          {
+            order: 1,
+            icon: "ticket",
+            description: "70% de desconto na compra do ingresso do titular",
+            descriptionEN: "70% discount on the purchase of the holder's ticket",
+            descriptionES: "70% de descuento en la compra de la entrada del titular",
+          },
+          {
+            order: 2,
+            icon: "t-shirt",
+            description: "01 camisa oficial por vigência do plano",
+            descriptionEN: "01 official jersey per plan term",
+            descriptionES: "01 camiseta oficial por vigencia del plan",
+          },
+          {
+            order: 3,
+            icon: "number-one-bold",
+            description: "Primeira prioridade na compra de ingressos",
+            descriptionEN: "First priority in ticket purchases",
+            descriptionES: "Primera prioridad en la compra de entradas",
+          },
+          {
+            order: 5,
+            icon: "gift",
+            description: "Um Welcome Kit",
+            descriptionEN: "One Welcome Kit",
+            descriptionES: "Un kit de bienvenida",
+          },
+          {
+            order: 6,
+            icon: "shopping-bag",
+            description: "Até 13% de desconto na Loja do Galo online",
+            descriptionEN: "Up to 13% discount at the online Galo Store",
+            descriptionES: "Hasta un 13% de descuento en la Tienda Galo en línea",
+          },
+          {
+            order: 7,
+            icon: "vantagem",
+            description:
+              "GNV Vantagens - descontos e cashback em diversos produtos e serviços nas lojas parceiras",
+            descriptionEN:
+              "GNV Advantages - discounts and cashback on various products and services at partner stores",
+            descriptionES:
+              "GNV Ventajas - descuentos y cashback en diversos productos y servicios en tiendas asociadas",
+          },
+          {
+            order: 8,
+            icon: "seal-percent",
+            description: "55% de desconto no Tour Arena MRV",
+            descriptionEN: "55% discount on the Arena MRV Tour",
+            descriptionES: "55% de descuento en el Tour Arena MRV",
+          },
+          {
+            order: 9,
+            icon: "swimming-pool",
+            description: "50% de desconto na aquisição de cotas dos clubes",
+            descriptionEN: "50% discount on the acquisition of club shares",
+            descriptionES: "50% de descuento en la adquisición de cuotas de los clubes",
+          },
+          {
+            order: 10,
+            icon: "barbell",
+            description: "10% de desconto na Academia de Futebol do Galo",
+            descriptionEN: "10% discount at the Galo Football Academy",
+            descriptionES: "10% de descuento en la Academia de Fútbol del Galo",
+          },
+          {
+            order: 11,
+            icon: "identification-card",
+            description: "Cartão de todos",
+            descriptionEN: "Card for everyone",
+            descriptionES: "Tarjeta de todos",
+          },
+        ],
+      },
+      {
+        idPlan: 458,
+        uuid: "999b8ac8-e6d4-47f2-817e-664e2de3ae33",
+        planName: "da Massa",
+        amount: 0,
+        createdAt: "2024-06-10T15:59:19.000Z",
+        updatedAt: "2025-09-24T17:01:27.000Z",
+        marketed: 1,
+        status: "ACTIVE",
+        months: 12,
+        renewable: 0,
+        upgradable: 1,
+        limit: null,
+        order: 8,
+        shopDiscount: 0,
+        pagarmeCode: null,
+        hasCard: 1,
+        idPlanGroup: null,
+        virtualCardOnly: 1,
+        saleDisabled: 0,
+        cardImageURL: "https://gnv-cartoes.s3.us-east-1.amazonaws.com/card-da-massa.png",
+        shirtModels: [],
+        subscription: 1,
+        benefits: [
+          {
+            order: 1,
+            icon: "ticket",
+            description:
+              "Prioridade na compra de ingressos antes do público geral",
+            descriptionEN:
+              "Priority in ticket purchases before the general public",
+            descriptionES:
+              "Prioridad en la compra de entradas antes que el público general",
+          },
+          {
+            order: 2,
+            icon: "vantagem",
+            description:
+              "GNV Vantagens - descontos e cashback em diversos produtos e serviços nas lojas parceiras",
+            descriptionEN:
+              "GNV Advantages - discounts and cashback on various products and services at partner stores",
+            descriptionES:
+              "GNV Ventajas - descuentos y cashback en diversos productos y servicios en tiendas asociadas",
+          },
+          {
+            order: 3,
+            icon: "seal-check-bold",
+            description: "Plano 100% gratuito",
+            descriptionEN: "100% free plan",
+            descriptionES: "Plan 100% gratuito",
+          },
+          {
+            order: 4,
+            icon: "seal-percent",
+            description: "Desconto 15% no Tour Arena MRV",
+            descriptionEN: "15% discount on the Arena MRV Tour",
+            descriptionES: "15% de descuento en el Tour Arena MRV",
+          },
+          {
+            order: 5,
+            icon: "identification-card",
+            description: "Cartão de todos",
+            descriptionEN: "Card for everyone",
+            descriptionES: "Tarjeta de todos",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 1,
+    name: "Pacote Anual",
+    url: "pacote-anual",
+    priceStartsAt: 1500,
+    plans: [],
+  },
+];
+
+export async function fetchPlansMock(): Promise<PlanApiPayload> {
+  // Simula latência de rede
+  return new Promise((resolve) => {
+    setTimeout(() => resolve(MOCK_PLANS), 300);
+  });
+}
+

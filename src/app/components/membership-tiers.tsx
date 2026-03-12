@@ -1,7 +1,8 @@
 import { motion } from "motion/react";
-import { Check, Ticket, ShoppingBag, Gift, Car, Trophy, Star, Users, Percent, Baby, Dumbbell, Beer, CreditCard, Package, Zap } from "lucide-react";
-import { useState } from "react";
-import planData from "../../imports/pasted_text/plan-details.json";
+import { Check, Ticket, ShoppingBag, Gift, Car, Trophy, Star, Users, Percent, Baby, Dumbbell, Beer, CreditCard, Package, Zap, Info } from "lucide-react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
+import { fetchPlansMock, type Plan } from "../services/plans-api.mock";
 
 // Icon mapping based on the JSON icon field
 const iconMap: Record<string, any> = {
@@ -24,22 +25,20 @@ const iconMap: Record<string, any> = {
   "rooster": Users,
   "soccer-ball": Trophy,
   "swimming-pool": Users,
+  "info": Info,
 };
 
-// Get the main plans from the data (excluding kids and specific plans)
-const allPlans = planData[0].plans;
-
 // Filter and map the featured plans for display
-const getFeaturedPlans = () => {
+const getFeaturedPlans = (allPlans: Plan[]) => {
   // Get Premium, Forte e Vingador, and Preto plans
-  const premium = allPlans.find(p => p.planName === "Premium");
-  const forteVingador = allPlans.find(p => p.planName === "Forte e Vingador");
-  const preto = allPlans.find(p => p.planName === "Preto");
+  const premium = allPlans.find((p) => p.planName === "Premium");
+  const forteVingador = allPlans.find((p) => p.planName === "Forte e Vingador");
+  const preto = allPlans.find((p) => p.planName === "Preto");
 
   const plans = [forteVingador, premium, preto].filter(Boolean);
 
-  return plans.map((plan: any, index: number) => {
-    const monthlyPrice = plan.amount / 12; // Convert cents to reais
+  return plans.map((plan, index: number) => {
+    const monthlyPrice = plan.amount / (plan.months || 12); // Convert cents to reais
     const isPremium = plan.planName === "Premium";
     const isForteVingador = plan.planName === "Forte e Vingador";
 
@@ -55,7 +54,7 @@ const getFeaturedPlans = () => {
           : "Grandes benefícios",
       popular: isForteVingador,
       premium: isPremium,
-      features: plan.benefits.slice(0, 5).map((benefit: any) => ({
+      features: plan.benefits.slice(0, 5).map((benefit) => ({
         icon: iconMap[benefit.icon] || Star,
         text: benefit.description,
         highlight: benefit.order <= 3,
@@ -76,8 +75,51 @@ const getFeaturedPlans = () => {
 };
 
 export function MembershipTiers() {
+  const navigate = useNavigate();
   const [showComparison, setShowComparison] = useState(false);
-  const tiers = getFeaturedPlans();
+  const [allPlans, setAllPlans] = useState<Plan[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [selectedPlan, setSelectedPlan] = useState<Plan | null>(null);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const loadPlans = async () => {
+      try {
+        setIsLoading(true);
+        const data = await fetchPlansMock();
+        if (!isMounted) return;
+
+        const bucket = data.find((b) => b.id === 0);
+        setAllPlans(bucket?.plans ?? []);
+        setError(null);
+      } catch (err) {
+        if (!isMounted) return;
+        setError("Não foi possível carregar os planos.");
+      } finally {
+        if (isMounted) {
+          setIsLoading(false);
+        }
+      }
+    };
+
+    loadPlans();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  const tiers = getFeaturedPlans(allPlans);
+
+  const handleOpenDetails = (plan: Plan) => {
+    setSelectedPlan(plan);
+  };
+
+  const handleCloseDetails = () => {
+    setSelectedPlan(null);
+  };
 
   return (
     <section id="planos" className="py-24 px-4 sm:px-6 lg:px-8 bg-black relative overflow-hidden">
@@ -88,6 +130,17 @@ export function MembershipTiers() {
       </div>
 
       <div className="max-w-[1440px] mx-auto relative z-10">
+        {isLoading && (
+          <div className="text-center text-white/60 mb-8">
+            Carregando planos...
+          </div>
+        )}
+        {error && !isLoading && (
+          <div className="text-center text-red-400 mb-8">
+            {error}
+          </div>
+        )}
+
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -221,6 +274,7 @@ export function MembershipTiers() {
                           : 'bg-white/10 hover:bg-white/20 text-white border border-white/20'
                       }`}
                       style={{ fontFamily: 'Oswald, sans-serif' }}
+                      onClick={() => navigate(`/assinar/${tier.id}`)}
                     >
                       ASSINAR AGORA
                     </motion.button>
@@ -288,8 +342,12 @@ export function MembershipTiers() {
           </h3>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
             {allPlans
-              .filter((p: any) => p.marketed === 1 && !['Premium', 'Forte e Vingador', 'Preto'].includes(p.planName))
-              .map((plan: any, i: number) => {
+              .filter(
+                (p) =>
+                  p.marketed === 1 &&
+                  !["Premium", "Forte e Vingador", "Preto"].includes(p.planName),
+              )
+              .map((plan, i: number) => {
                 const monthlyPrice = plan.amount / (plan.months || 12);
                 return (
                   <motion.div
@@ -311,7 +369,10 @@ export function MembershipTiers() {
                     <div className="text-xs text-white/60 mb-4">
                       {plan.benefits.length} benefícios
                     </div>
-                    <button className="w-full py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg text-sm font-semibold transition-all">
+                    <button
+                      onClick={() => handleOpenDetails(plan)}
+                      className="w-full py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg text-sm font-semibold transition-all"
+                    >
                       Ver detalhes
                     </button>
                   </motion.div>
@@ -320,6 +381,92 @@ export function MembershipTiers() {
           </div>
         </motion.div>
       </div>
+
+      {/* Plan Details Modal */}
+      {selectedPlan && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm px-4"
+          onClick={handleCloseDetails}
+        >
+          <div
+            className="relative w-full max-w-lg bg-gradient-to-b from-[#111111] to-black border border-white/10 rounded-2xl p-6 shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+            role="dialog"
+            aria-modal="true"
+            aria-label={`Detalhes do plano ${selectedPlan.planName}`}
+          >
+            <button
+              onClick={handleCloseDetails}
+              className="absolute right-4 top-4 text-white/40 hover:text-white transition-colors text-sm"
+            >
+              Fechar
+            </button>
+
+            <div className="mb-4">
+              <h3
+                className="text-2xl font-bold text-white mb-1"
+                style={{ fontFamily: "Oswald, sans-serif" }}
+              >
+                {selectedPlan.planName}
+              </h3>
+              <p className="text-xs uppercase text-white/40 tracking-wide">
+                {selectedPlan.status === "ACTIVE" ? "Plano ativo" : selectedPlan.status}
+                {selectedPlan.renewable ? " · Renovável" : ""}
+              </p>
+            </div>
+
+            <div className="mb-6 flex items-baseline gap-2">
+              <span
+                className="text-4xl font-black text-[#D4AF37]"
+                style={{ fontFamily: "Oswald, sans-serif" }}
+              >
+                R$ {(selectedPlan.amount / (selectedPlan.months || 12)).toFixed(2).replace(".", ",")}
+              </span>
+              <span className="text-white/40 text-sm">/mês</span>
+            </div>
+
+            <div className="mb-4 text-sm text-white/60">
+              {selectedPlan.benefits.length} benefícios incluídos neste plano
+            </div>
+
+            <div className="max-h-64 overflow-y-auto pr-2 space-y-3">
+              {selectedPlan.benefits.map((benefit) => {
+                const Icon = iconMap[benefit.icon] || Star;
+                const highlight = benefit.order <= 3;
+                return (
+                  <div key={benefit.order} className="flex items-start gap-3">
+                    <div
+                      className={`p-1.5 rounded-lg flex-shrink-0 ${
+                        highlight
+                          ? "bg-[#D4AF37]/20 text-[#D4AF37]"
+                          : "bg-white/5 text-white/60"
+                      }`}
+                    >
+                      <Icon size={16} />
+                    </div>
+                    <span
+                      className={`text-sm ${
+                        highlight ? "text-white font-semibold" : "text-white/70"
+                      }`}
+                    >
+                      {benefit.description}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
+
+            <div className="mt-6">
+              <button
+                className="w-full py-3 rounded-lg bg-[#D4AF37] hover:bg-[#D4AF37]/90 text-black font-bold tracking-wide text-sm shadow-lg shadow-[#D4AF37]/20 transition-all"
+                style={{ fontFamily: "Oswald, sans-serif" }}
+              >
+                ASSINAR PLANO
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       <style>{`
         .scrollbar-hide::-webkit-scrollbar {
