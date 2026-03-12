@@ -39,20 +39,20 @@ const getFeaturedPlans = () => {
   const plans = [forteVingador, premium, preto].filter(Boolean);
 
   return plans.map((plan: any, index: number) => {
-    const monthlyPrice = plan.amount / 100; // Convert cents to reais
+    const monthlyPrice = plan.amount / 12; // Convert cents to reais
     const isPremium = plan.planName === "Premium";
     const isForteVingador = plan.planName === "Forte e Vingador";
 
     return {
       id: plan.idPlan,
       name: plan.planName,
-      price: `R$ ${monthlyPrice.toFixed(2).replace('.', ',')}`,
-      period: "/ano",
-      description: isPremium 
-        ? "Experiência VIP completa" 
-        : isForteVingador 
-        ? "O plano mais popular" 
-        : "Grandes benefícios",
+      price: `R$ ${monthlyPrice.toFixed(2).replace(".", ",")}`,
+      period: "/mês",
+      description: isPremium
+        ? "Experiência VIP completa"
+        : isForteVingador
+          ? "O plano mais popular"
+          : "Grandes benefícios",
       popular: isForteVingador,
       premium: isPremium,
       features: plan.benefits.slice(0, 5).map((benefit: any) => ({
@@ -63,13 +63,13 @@ const getFeaturedPlans = () => {
       gradient: isPremium
         ? "from-[#D4AF37]/20 to-[#1a1a1a]"
         : isForteVingador
-        ? "from-[#2a2a2a] to-[#1a1a1a]"
-        : "from-[#1a1a1a] to-[#2a2a2a]",
+          ? "from-[#2a2a2a] to-[#1a1a1a]"
+          : "from-[#1a1a1a] to-[#2a2a2a]",
       borderGlow: isPremium
         ? "rgba(212, 175, 55, 0.6)"
         : isForteVingador
-        ? "rgba(212, 175, 55, 0.3)"
-        : "rgba(255, 255, 255, 0.1)",
+          ? "rgba(212, 175, 55, 0.3)"
+          : "rgba(255, 255, 255, 0.1)",
       allBenefits: plan.benefits,
     };
   });
@@ -290,7 +290,7 @@ export function MembershipTiers() {
             {allPlans
               .filter((p: any) => p.marketed === 1 && !['Premium', 'Forte e Vingador', 'Preto'].includes(p.planName))
               .map((plan: any, i: number) => {
-                const monthlyPrice = (plan.amount / 100) / (plan.months || 12);
+                const monthlyPrice = plan.amount / (plan.months || 12);
                 return (
                   <motion.div
                     key={plan.idPlan}
