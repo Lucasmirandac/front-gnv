@@ -1,5 +1,6 @@
 import { motion } from "motion/react";
 import { Instagram, Twitter, Facebook, Youtube, Mail, MapPin, Phone } from "lucide-react";
+import gnvLogo from "../assets/logo-gnv.svg";
 
 export function Footer() {
   return (
@@ -9,9 +10,11 @@ export function Footer() {
           {/* Brand */}
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-10 h-10 bg-gradient-to-br from-white to-[#8b8b8b] rounded-md flex items-center justify-center">
-                <span className="text-black font-bold text-lg" style={{ fontFamily: 'Oswald, sans-serif' }}>G</span>
-              </div>
+              <img
+                src={gnvLogo}
+                alt="Galo na Veia"
+                className="w-[120px] h-auto"
+              />
               <div>
                 <div className="text-sm font-bold tracking-tight text-white" style={{ fontFamily: 'Oswald, sans-serif' }}>
                   GALO NA VEIA

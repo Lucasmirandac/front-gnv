@@ -4,6 +4,7 @@ import { cva } from "class-variance-authority";
 import { ChevronDownIcon } from "lucide-react";
 
 import { cn } from "./utils";
+import gnvLogo from "../../assets/logo-gnv.svg";
 
 function NavigationMenu({
   className,
@@ -155,6 +156,17 @@ function NavigationMenuIndicator({
   );
 }
 
+function GnvLogo(props: React.ImgHTMLAttributes<HTMLImageElement>) {
+  return (
+    <img
+      src={gnvLogo}
+      alt="Galo na Veia"
+      className={cn("h-8 w-auto", props.className)}
+      {...props}
+    />
+  );
+}
+
 export {
   NavigationMenu,
   NavigationMenuList,
@@ -165,4 +177,5 @@ export {
   NavigationMenuIndicator,
   NavigationMenuViewport,
   navigationMenuTriggerStyle,
+  GnvLogo,
 };
